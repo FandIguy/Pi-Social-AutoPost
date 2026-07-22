@@ -1,0 +1,16 @@
+[Unit]
+Description=Pi Social AutoPost - upload web GUI
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Change 'pi' to your username on all three lines below (see README Step 6).
+User=pi
+EnvironmentFile=/home/pi/.config/autopost.env
+ExecStart=/usr/bin/python3 /home/pi/pi-social-autopost/uploader.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

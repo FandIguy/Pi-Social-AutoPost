@@ -1,14 +1,17 @@
-# Secrets / local config — never commit API keys or account IDs
+# Secrets
+autopost.env
 *.env
+!autopost.env.example
 
-# Videos in the posting queue
+# Media + runtime artifacts
 *.mp4
 *.mov
-
-# Runtime artifacts created by autopost.py
 *.log
 posted/
 failed/
 
-# Python bytecode
+# Python
 __pycache__/
+*.pyc
+.venv/
+venv/
