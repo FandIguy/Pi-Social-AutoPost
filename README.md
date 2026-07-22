@@ -28,10 +28,11 @@ content: clips, memes, art timelapses, whatever you make.
 
 ## Step 1 — Get the code onto your Pi
 
-SSH into your Pi and run:
+1. SSH into your Pi (or open a terminal directly on it).
+2. Clone this repo and install the two Python packages it needs:
 
 ```bash
-git clone https://github.com/YOURNAME/pi-social-autopost.git ~/pi-social-autopost
+git clone https://github.com/FandIguy/Pi-Social-AutoPost.git ~/pi-social-autopost
 cd ~/pi-social-autopost
 pip install -r requirements.txt --break-system-packages
 ```
@@ -59,7 +60,9 @@ need. (They're not secret, unlike the key.)
 ## Step 3 — Create your config file
 
 This is a tiny text file that holds your key and IDs so they're not written
-into the code itself:
+into the code itself.
+
+1. Copy the example config into place and open it in an editor:
 
 ```bash
 mkdir -p ~/.config
@@ -67,8 +70,9 @@ cp ~/pi-social-autopost/autopost.env.example ~/.config/autopost.env
 nano ~/.config/autopost.env
 ```
 
-Fill in your key and the two account IDs, save (Ctrl+O, Enter), exit
-(Ctrl+X). Then lock the file down so only you can read it:
+2. Fill in your API key and the two account IDs from Step 2, then save
+   (Ctrl+O, Enter) and exit (Ctrl+X).
+3. Lock the file down so only you can read it:
 
 ```bash
 chmod 600 ~/.config/autopost.env
@@ -86,16 +90,18 @@ path in your config file from Step 3.
 
 ## Step 5 — Test it!
 
-Put at least one `.mp4` or `.mov` video in your queue folder, then:
+1. Put at least one `.mp4` or `.mov` video into your queue folder
+   (`/mnt/ssd/social-queue`).
+2. Load your config and run the poster by hand:
 
 ```bash
 set -a; source ~/.config/autopost.env; set +a
 python3 ~/pi-social-autopost/autopost.py
 ```
 
-Watch the messages. If everything's set up right, you'll see it upload and
-then `Post created:` — go check your TikTok and Instagram. Your Pi just made
-its first post. 🎉
+3. Watch the messages. If everything's set up right, you'll see it upload
+   and then `Post created:` — go check your TikTok and Instagram. Your Pi
+   just made its first post. 🎉
 
 If it errors instead, the message will usually tell you exactly what's wrong
 (bad key, missing ID, etc.). See Troubleshooting below.
@@ -105,10 +111,11 @@ If it errors instead, the message will usually tell you exactly what's wrong
 This uses **systemd timers** — the Pi's built-in alarm clock for programs.
 Two small files tell it what to run and when.
 
-First, open `systemd/autopost.service`. The default Raspberry Pi user is
-`pi`, so if that's you, it works as-is. If your username is different (run
-`whoami` if unsure), replace `pi` in all three spots — the `User=` line and
-the two `/home/pi/...` paths. Then:
+1. Open `systemd/autopost.service` and check the username. The default
+   Raspberry Pi user is `pi`, so if that's you, it works as-is. If your
+   username is different (run `whoami` if unsure), replace `pi` in all
+   three spots — the `User=` line and the two `/home/pi/...` paths.
+2. Copy both unit files into place, reload systemd, and start the timer:
 
 ```bash
 cd ~/pi-social-autopost
@@ -118,37 +125,53 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now autopost.timer
 ```
 
-By default it posts once a day at 4 PM. Want different times? Edit the timer:
+By default it posts once a day at 4 PM. To change when it fires, edit the
+timer:
 
 ```bash
 sudo nano /etc/systemd/system/autopost.timer
 ```
 
 Each `OnCalendar=` line is one post per day (24-hour clock — `18:15` means
-6:15 PM). Add as many lines as you want. After editing:
+6:15 PM). Add as many lines as you want, then reload and restart:
 
 ```bash
 sudo systemctl daemon-reload && sudo systemctl restart autopost.timer
 ```
 
-Check it's armed: `systemctl list-timers | grep autopost` shows the next
-run time. That's it — the Pi now posts on its own, and even catches up on a
-missed run if it was powered off.
+Finally, confirm the timer is armed — this prints the next run time:
+
+```bash
+systemctl list-timers | grep autopost
+```
+
+That's it: the Pi now posts on its own, and even catches up on a missed run
+if it was powered off.
 
 ## Step 7 (optional but great) — The web dashboard
 
 Instead of copying files to the Pi by hand, run the little web app and
-upload from your phone or laptop browser:
+upload from your phone or laptop browser.
+
+1. Install and start the dashboard service. As in Step 6, replace `pi` in
+   the `User=` line and both paths first if your username isn't `pi`:
 
 ```bash
 sudo cp systemd/autopost-uploader.service /etc/systemd/system/
-sudo nano /etc/systemd/system/autopost-uploader.service   # replace 'pi' here too if needed (User= and both paths)
+sudo nano /etc/systemd/system/autopost-uploader.service
 sudo systemctl daemon-reload
 sudo systemctl enable --now autopost-uploader.service
 ```
 
-Now open `http://YOUR_PI_IP:5000` from any device on your wifi (find your
-Pi's IP with `hostname -I`). You can:
+2. Find your Pi's IP address:
+
+```bash
+hostname -I
+```
+
+3. Open `http://YOUR_PI_IP:5000` in a browser on any device on your wifi.
+
+From there you can:
 
 - **Drag and drop videos** straight into the queue
 - **Preview any queued video** and edit its caption before it posts
