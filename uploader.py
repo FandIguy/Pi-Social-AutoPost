@@ -493,6 +493,13 @@ def upload():
     return jsonify(ok=True, saved=dest.name)
 
 
+@app.errorhandler(413)
+def too_large(_e):
+    # Fires when an upload exceeds MAX_CONTENT_LENGTH. Return JSON so the
+    # dashboard shows a clear message instead of a generic "Bad response".
+    return jsonify(ok=False, error=f"File too large (max {MAX_MB} MB)"), 413
+
+
 @app.route("/")
 def index():
     return render_template_string(PAGE, queue_dir=str(QUEUE_DIR),
