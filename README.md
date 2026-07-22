@@ -37,7 +37,9 @@ pip install -r requirements.txt --break-system-packages
 ```
 
 (That `--break-system-packages` flag looks scary but it's just how newer
-Raspberry Pi OS wants you to install Python packages. It's fine.)
+Raspberry Pi OS wants you to install Python packages. It's fine. On older
+versions — Bullseye or earlier — pip won't recognize the flag; just leave
+it off and run `pip install -r requirements.txt`.)
 
 ## Step 2 — Get your Zernio API key and account IDs
 
