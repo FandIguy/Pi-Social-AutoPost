@@ -34,7 +34,7 @@ def _env(*names, default=None):
     return default
 
 
-QUEUE_DIR = Path(_env("AUTOPOST_QUEUE_DIR", "KRECXX_QUEUE_DIR",
+QUEUE_DIR = Path(_env("AUTOPOST_QUEUE_DIR",
                       default="/mnt/ssd/social-queue"))
 PORT = int(os.environ.get("UPLOADER_PORT", "5000"))
 MAX_MB = int(os.environ.get("UPLOADER_MAX_MB", "500"))

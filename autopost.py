@@ -42,11 +42,11 @@ def _env(*names, default=None):
     return default
 
 
-QUEUE_DIR = Path(_env("AUTOPOST_QUEUE_DIR", "KRECXX_QUEUE_DIR",
+QUEUE_DIR = Path(_env("AUTOPOST_QUEUE_DIR",
                       default="/mnt/ssd/social-queue"))
-CAPTIONS_DIR = Path(_env("AUTOPOST_CAPTIONS_DIR", "KRECXX_CAPTIONS_DIR",
+CAPTIONS_DIR = Path(_env("AUTOPOST_CAPTIONS_DIR",
                          default=str(QUEUE_DIR / "captions")))
-LOG_FILE = Path(_env("AUTOPOST_LOG_FILE", "KRECXX_LOG_FILE",
+LOG_FILE = Path(_env("AUTOPOST_LOG_FILE",
                      default=str(QUEUE_DIR / "autopost.log")))
 
 POSTED_DIR = QUEUE_DIR / "posted"
