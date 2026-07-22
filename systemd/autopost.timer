@@ -1,0 +1,19 @@
+[Unit]
+Description=Run Pi Social AutoPost on a schedule
+
+[Timer]
+# Add or remove OnCalendar lines to control when it fires.
+# Format: DayOfWeek Year-Month-Day Hour:Minute:Second (24-hour clock).
+# Examples below run once at 16:00 every day.
+OnCalendar=*-*-* 16:00:00
+# For multiple times per day, add more lines, e.g.:
+#   OnCalendar=*-*-* 13:15:00
+#   OnCalendar=*-*-* 18:15:00
+
+# Catch up if the Pi was off when a run was due.
+Persistent=true
+# 0-5 min random jitter so posts don't land at the exact same second daily.
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,17 @@
+# Secrets
+autopost.env
+*.env
+!autopost.env.example
+
+# Media + runtime artifacts
+*.mp4
+*.mov
+*.log
+posted/
+failed/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/

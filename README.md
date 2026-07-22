@@ -103,8 +103,10 @@ If it errors instead, the message will usually tell you exactly what's wrong
 This uses **systemd timers** — the Pi's built-in alarm clock for programs.
 Two small files tell it what to run and when.
 
-First, open `systemd/autopost.service` and change the `User=pi` line to your
-actual username (run `whoami` if unsure). Then:
+First, open `systemd/autopost.service`. The default Raspberry Pi user is
+`pi`, so if that's you, it works as-is. If your username is different (run
+`whoami` if unsure), replace `pi` in all three spots — the `User=` line and
+the two `/home/pi/...` paths. Then:
 
 ```bash
 cd ~/pi-social-autopost
@@ -138,7 +140,7 @@ upload from your phone or laptop browser:
 
 ```bash
 sudo cp systemd/autopost-uploader.service /etc/systemd/system/
-sudo nano /etc/systemd/system/autopost-uploader.service   # fix the User= line here too
+sudo nano /etc/systemd/system/autopost-uploader.service   # replace 'pi' here too if needed (User= and both paths)
 sudo systemctl daemon-reload
 sudo systemctl enable --now autopost-uploader.service
 ```

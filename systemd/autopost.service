@@ -1,0 +1,11 @@
+[Unit]
+Description=Pi Social AutoPost - post a random video to TikTok and Instagram
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# Change 'pi' to your username on all three lines below (see README Step 6).
+User=pi
+EnvironmentFile=/home/pi/.config/autopost.env
+ExecStart=/usr/bin/python3 /home/pi/pi-social-autopost/autopost.py
