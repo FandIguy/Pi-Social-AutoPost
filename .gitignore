@@ -1,0 +1,14 @@
+# Secrets / local config — never commit API keys or account IDs
+*.env
+
+# Videos in the posting queue
+*.mp4
+*.mov
+
+# Runtime artifacts created by autopost.py
+*.log
+posted/
+failed/
+
+# Python bytecode
+__pycache__/
